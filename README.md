@@ -5,16 +5,13 @@
 目前包括已下算子:
 
 1. 卷积 
-`Conv2D(name="conv1",in_channels= 1, out_channels= 6,kernel_size=3,stride=1,padding=1)`
 
 2. 全连接 FC
-`FC(name="full1",in_channels= 12*7*7 , out_channels= 512),`
 
 3. 池化  
 - MaxPolling
 - AvgPolling
-`MaxPooling('pool1',ksize=2,stride=2)`
-`AvgPolling('pool1',ksize=2,stride=2)`
+
 
 4. 激活函数 
 - Sigmoid
