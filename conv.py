@@ -39,7 +39,7 @@ class Conv2D(Layers):
 
         x = np.pad(x,((0,0),(0,0),(self.padding,self.padding),(self.padding,self.padding)),'constant',constant_values=0)
         b,c,h,w = x.shape
-        
+
         self.out = np.zeros((b,self.out_channels,(h-self.ksize)//self.stride +1,(w-self.ksize)//self.stride +1))
         
         self.col_img = self.im2col(x,self.ksize,self.stride) # bhw * ckk
@@ -95,3 +95,20 @@ class Conv2D(Layers):
                     image_col.append(col)
         
         return np.array(image_col)
+
+
+
+if __name__ == '__main__':
+    x = np.random.randn(5,3,32,32)
+
+    conv = Conv2D('conv1',3,12,4,1,1)
+
+    y = conv.forward(x)
+    print(y.shape)
+
+    loss = y-(y+1)
+    grad = conv.backward(loss)
+
+    print(grad.shape)
+
+    # print(x,'\n\n',y)

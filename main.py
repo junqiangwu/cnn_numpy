@@ -14,18 +14,20 @@ class Net(Module):
         self.layers = [
             # Conv2D(name="conv1",in_channels= 1, out_channels= 6,kernel_size=3,stride=1,padding=1), # 28
             # MaxPooling('pool1',ksize=2,stride=2), # 14
-            # Relu(name='relu'),
+            # Tanh(name='relu'),
 
             # Conv2D(name="conv2",in_channels= 6, out_channels= 12,kernel_size=3,stride=1,padding=1),
             # MaxPooling('pool2',ksize=2,stride=2), # 7*7*32
-            # Relu(name='relu2'),
-
-            FC(name="full1",in_channels= 28*28 , out_channels= 512),
-            Tanh(name="sigmoid1"),
+            # Tanh(name='relu2'),
+            
+            FC(name="full1",in_channels=28*28, out_channels= 512),
+            Sigmoid(name="sigmoid1"),
             FC(name="full2",in_channels=512,out_channels=128),
-            Tanh(name="sigmoid2"),
+            Sigmoid(name="sigmoid2"),
             FC(name="full3",in_channels=128,out_channels=10),
         ]
+
+
 
 def val(net,data,labels):
     n_correct = 0
@@ -68,11 +70,15 @@ def train():
             loss_value,grad = loss(pred,label)
 
             net.backward(grad)
-            net.step(lr=1e-3)
             
+            if epoch >= 10:
+                net.step(lr=1e-4)
+            else:
+                net.step(lr=1e-3)
+
             acc = n_correct/(i+100)
 
-            if i%(50*100) == 0:
+            if i%(5*100) == 0:
                 print("epoch: {} iter: {} loss: {} acc: {:.3f} n_correct: {}".format(epoch,i,loss_value,acc,n_correct))
     
         val(net,test_images,test_labels)
